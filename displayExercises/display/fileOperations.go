@@ -1,11 +1,11 @@
-package fileOperations
+package display
 
 import (
 	"encoding/json"
 	"fmt"
 	"os"
 
-	"github.com/shivangidas/go-to-do-app/model"
+	"github.com/shivangidas/go-to-do-app/displayExercises/display/model"
 )
 
 const fileName = "data/todoList.json"

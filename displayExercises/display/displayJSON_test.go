@@ -4,7 +4,7 @@ import (
 	"bytes"
 	"testing"
 
-	"github.com/shivangidas/go-to-do-app/model"
+	"github.com/shivangidas/go-to-do-app/displayExercises/display/model"
 )
 
 func TestPrintListJSON(t *testing.T) {

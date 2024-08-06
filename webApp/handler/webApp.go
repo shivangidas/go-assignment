@@ -8,17 +8,17 @@ import (
 	"strconv"
 
 	"github.com/google/uuid"
-	cmdLineApp "github.com/shivangidas/go-to-do-app/taskInterface"
+	"github.com/shivangidas/go-to-do-app/webApp/taskInterface"
 )
 
-var inMemoryTasks = cmdLineApp.TaskList{}
+var inMemoryTasks = taskInterface.TaskList{}
 
 func Setup() {
-	sampleTask := []cmdLineApp.Task{{Name: "Email doc for letter", Status: cmdLineApp.StatusEnum(2)},
-		{Name: "Format email", Status: cmdLineApp.StatusEnum(3)},
-		{Name: "Attach letter", Status: cmdLineApp.StatusEnum(3)},
-		{Name: "Send email", Status: cmdLineApp.StatusEnum(3)},
-		{Name: "Call access to work", Status: cmdLineApp.StatusEnum(3)}}
+	sampleTask := []taskInterface.Task{{Name: "Buy shares", Status: taskInterface.StatusEnum(2)},
+		{Name: "Check news", Status: taskInterface.StatusEnum(3)},
+		{Name: "Complete assignment", Status: taskInterface.StatusEnum(1)},
+		{Name: "Send email", Status: taskInterface.StatusEnum(3)},
+		{Name: "Call access to work", Status: taskInterface.StatusEnum(3)}}
 	for _, task := range sampleTask {
 		inMemoryTasks.AddTask(task)
 	}
@@ -64,7 +64,7 @@ func createHandler(writer http.ResponseWriter, req *http.Request) {
 	todo := req.FormValue("todo")
 	status, err := strconv.ParseInt(req.FormValue("status"), 10, 64)
 	checkErr(err)
-	_, err2 := inMemoryTasks.AddTask(cmdLineApp.Task{Name: todo, Status: cmdLineApp.StatusEnum(status)})
+	_, err2 := inMemoryTasks.AddTask(taskInterface.Task{Name: todo, Status: taskInterface.StatusEnum(status)})
 	checkErrHTTP(writer, err2, "Cannot add new task", http.StatusBadRequest)
 	http.Redirect(writer, req, "/", http.StatusFound)
 }
@@ -78,7 +78,7 @@ func editLinkHandler(writer http.ResponseWriter, req *http.Request) {
 	checkErr(err)
 	data := struct {
 		ID   uuid.UUID
-		Task cmdLineApp.Task
+		Task taskInterface.Task
 	}{
 		ID:   id,
 		Task: task,
@@ -101,8 +101,8 @@ func updateHandler(writer http.ResponseWriter, req *http.Request) {
 	if oldTask.Name != todo {
 		inMemoryTasks.UpdateTaskName(id, todo)
 	}
-	if oldTask.Status != cmdLineApp.StatusEnum(status) {
-		inMemoryTasks.UpdateStatus(id, cmdLineApp.StatusEnum(status))
+	if oldTask.Status != taskInterface.StatusEnum(status) {
+		inMemoryTasks.UpdateStatus(id, taskInterface.StatusEnum(status))
 	}
 	http.Redirect(writer, req, "/", http.StatusFound)
 }
@@ -124,4 +124,7 @@ func Handlers() {
 	http.HandleFunc("/edit", editLinkHandler)
 	http.HandleFunc("/update", updateHandler)
 	http.HandleFunc("/delete", deleteLinkHandler)
+
+	http.Handle("/public/", http.StripPrefix("/public/", http.FileServer(http.Dir("public"))))
+
 }

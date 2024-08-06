@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"io"
 
-	"github.com/shivangidas/go-to-do-app/model"
+	"github.com/shivangidas/go-to-do-app/displayExercises/display/model"
 )
 
 func Print(out io.Writer, item string) {

@@ -20,17 +20,17 @@ func (e TaskErr) Error() string {
 type StatusEnum int
 
 const (
-	Started = iota
+	Start = iota
 	Ongoing
 	Completed
-	Pending
+	Ignored
 )
 
 var stateName = map[StatusEnum]string{
-	Started:   "started",
-	Ongoing:   "ongoing",
-	Completed: "completed",
-	Pending:   "pending",
+	Start:     "To start",
+	Ongoing:   "Ongoing",
+	Completed: "Completed",
+	Ignored:   "Ignored",
 }
 
 func (ss StatusEnum) String() string {

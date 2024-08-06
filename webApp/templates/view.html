@@ -1,16 +1,27 @@
-<h1>To Do List</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>To do app</title>
+    <link rel="stylesheet" type="text/css" href="/public/style.css">
+</head>
+<body>
+    <h1>To Do List</h1>
 
-<ol>
-    {{range $id, $task := .}}
-    <li>
-        <!-- <strong>ID:</strong> {{$id}}<br> -->
-        {{$task.Name}} : 
-        {{$task.Status.String}}
-        <a href="/edit?id={{$id}}">Edit</a>
-        <a href="/delete?id={{$id}}">Delete</a>
-    </li>
-    {{end}}
-</ol>
+    <ol>
+        {{range $id, $task := .}}
+        <li>
+            <!-- <strong>ID:</strong> {{$id}}<br> -->
+            {{$task.Name}} : 
+            {{$task.Status.String}}
+            <a class="editLink" href="/edit?id={{$id}}">Edit</a>
+            <a class="deleteLink" href="/delete?id={{$id}}">Delete</a>
+        </li>
+        {{end}}
+    </ol>
 
-<button><a href="/task">Add new task</a></button>
+    <a href="/task">Add a new task</a>
 
+ 
+</body>
+</html>

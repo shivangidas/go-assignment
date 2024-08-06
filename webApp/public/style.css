@@ -1,0 +1,14 @@
+body {
+    background: rgb(68, 130, 152);
+    color: rgb(255, 255, 255);
+    font-size: calc(1em + 0.5vw);
+}
+
+a,
+.editLink {
+    color: aqua;
+}
+
+.deleteLink {
+    color: #7b1d1d;
+}

@@ -22,10 +22,10 @@ func assertError(t testing.TB, err, want error) {
 func TestAddTask(t *testing.T) {
 	t.Run("Add new task", func(t *testing.T) {
 		mockTasks := TaskList{}
-		newTask := Task{Name: "Pass this test", Status: StatusEnum(Pending)}
+		newTask := Task{Name: "Pass this test", Status: StatusEnum(Start)}
 		id, _ := mockTasks.AddTask(newTask)
 		assertStrings(t, mockTasks[id].Name, newTask.Name)
-		assertStrings(t, mockTasks[id].Status.String(), "pending")
+		assertStrings(t, mockTasks[id].Status.String(), "To start")
 	})
 	t.Run("Non existent status", func(t *testing.T) {
 		mockTasks := TaskList{}
@@ -36,8 +36,8 @@ func TestAddTask(t *testing.T) {
 }
 func TestSearchTask(t *testing.T) {
 	ids := []uuid.UUID{uuid.New(), uuid.New()}
-	mockTasks := TaskList{ids[0]: {Name: "Write the test", Status: StatusEnum(Pending)},
-		ids[1]: {Name: "Pass this test", Status: StatusEnum(Pending)}}
+	mockTasks := TaskList{ids[0]: {Name: "Write the test", Status: StatusEnum(Start)},
+		ids[1]: {Name: "Pass this test", Status: StatusEnum(Start)}}
 	t.Run("Search task by id", func(t *testing.T) {
 
 		got, err := mockTasks.SearchTask(ids[1])
@@ -53,8 +53,8 @@ func TestSearchTask(t *testing.T) {
 
 func TestUpdateTaskName(t *testing.T) {
 	ids := []uuid.UUID{uuid.New(), uuid.New()}
-	mockTasks := TaskList{ids[0]: {Name: "Write the test", Status: StatusEnum(Pending)},
-		ids[1]: {Name: "Pass this test", Status: StatusEnum(Pending)}}
+	mockTasks := TaskList{ids[0]: {Name: "Write the test", Status: StatusEnum(Start)},
+		ids[1]: {Name: "Pass this test", Status: StatusEnum(Start)}}
 	t.Run("Update task name", func(t *testing.T) {
 		err := mockTasks.UpdateTaskName(ids[1], "Pass all tests")
 		assertError(t, err, nil)
@@ -68,12 +68,12 @@ func TestUpdateTaskName(t *testing.T) {
 
 func TestUpdateStatus(t *testing.T) {
 	ids := []uuid.UUID{uuid.New(), uuid.New()}
-	mockTasks := TaskList{ids[0]: {Name: "Write the test", Status: StatusEnum(Pending)},
-		ids[1]: {Name: "Pass this test", Status: StatusEnum(Pending)}}
+	mockTasks := TaskList{ids[0]: {Name: "Write the test", Status: StatusEnum(Start)},
+		ids[1]: {Name: "Pass this test", Status: StatusEnum(Start)}}
 	t.Run("Update task status", func(t *testing.T) {
 		err := mockTasks.UpdateStatus(ids[1], 1)
 		assertError(t, err, nil)
-		assertStrings(t, mockTasks[ids[1]].Status.String(), "ongoing")
+		assertStrings(t, mockTasks[ids[1]].Status.String(), "Ongoing")
 	})
 	t.Run("Error in Update task status", func(t *testing.T) {
 		err := mockTasks.UpdateStatus(uuid.New(), 1)
@@ -87,8 +87,8 @@ func TestUpdateStatus(t *testing.T) {
 
 func TestDeleteTask(t *testing.T) {
 	ids := []uuid.UUID{uuid.New(), uuid.New()}
-	mockTasks := TaskList{ids[0]: {Name: "Write the test", Status: StatusEnum(Pending)},
-		ids[1]: {Name: "Pass this test", Status: StatusEnum(Pending)}}
+	mockTasks := TaskList{ids[0]: {Name: "Write the test", Status: StatusEnum(Ignored)},
+		ids[1]: {Name: "Pass this test", Status: StatusEnum(Ignored)}}
 	mockTasks.DeleteTask(ids[0])
 	_, err := mockTasks.SearchTask(ids[0])
 	assertError(t, err, CannotFindTask)
