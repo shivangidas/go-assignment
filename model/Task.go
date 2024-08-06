@@ -1,3 +1,4 @@
+// used in display, not for cmdline or web app
 package model
 
 type StatusEnum int

@@ -1,0 +1,16 @@
+<h1>To Do List</h1>
+
+<ol>
+    {{range $id, $task := .}}
+    <li>
+        <!-- <strong>ID:</strong> {{$id}}<br> -->
+        {{$task.Name}} : 
+        {{$task.Status.String}}
+        <a href="/edit?id={{$id}}">Edit</a>
+        <a href="/delete?id={{$id}}">Delete</a>
+    </li>
+    {{end}}
+</ol>
+
+<button><a href="/task">Add new task</a></button>
+

@@ -1,4 +1,4 @@
-package save
+package fileOperations
 
 import (
 	"encoding/json"
@@ -37,11 +37,11 @@ func CreateFileAndWrite(items ...model.Todo) {
 	f := createFile(fileName)
 	defer closeFile(f)
 	writeFile(f, items...)
-	data := readFile(fileName)
+	data := ReadJsonFile(fileName)
 	fmt.Println(data)
 }
 
-func readFile(fileName string) string {
+func ReadJsonFile(fileName string) string {
 	data, err := os.ReadFile(fileName)
 	checkError(err)
 	return string(data)

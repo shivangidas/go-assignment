@@ -1,0 +1,16 @@
+<h1>Add a task</h1>
+<form action="/create" method="POST">
+    <div>
+        <label for="todo">Task</label>
+        <input type="text" name="todo" required><br/>
+        <label for="status">Status</label>
+        <select name="status">
+            <option value="0">started</option>
+            <option value="1">ongoing</option>
+            <option value="2">completed</option>
+            <option value="3">pending</option>
+        </select>
+
+        <input type="submit">
+    </div>
+</form>

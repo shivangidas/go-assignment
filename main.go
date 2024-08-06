@@ -13,6 +13,11 @@ func main() {
 	//display.PrintList(os.Stdout, items...)
 	//PrintListJSON(os.Stdout, items...)
 	//save.CreateFileAndWrite(items...)
-	display.DispayConcurrent()
+	display.DisplayConcurrent()
+	// cmdline tasks
+	// inMemoryTasks := cmdLineApp.TaskList{}
+	// sampleTask := cmdLineApp.Task{Name: "Hack the patriarchy", Status: cmdLineApp.StatusEnum(3)}
+	// id, _ := inMemoryTasks.AddTask(sampleTask)
+	// fmt.Println(inMemoryTasks.SearchTask(id))
 
 }
