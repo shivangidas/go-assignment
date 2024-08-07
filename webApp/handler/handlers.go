@@ -8,7 +8,7 @@ import (
 	"strconv"
 
 	"github.com/google/uuid"
-	"github.com/shivangidas/go-to-do-app/webApp/taskInterface"
+	"github.com/shivangidas/go-to-do-app/taskInterface"
 )
 
 var inMemoryTasks = taskInterface.TaskList{}
