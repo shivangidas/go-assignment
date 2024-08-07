@@ -111,11 +111,3 @@ func (tasks TaskList) UpdateStatus(id uuid.UUID, status StatusEnum) error {
 func (tasks TaskList) DeleteTask(id uuid.UUID) {
 	delete(tasks, id)
 }
-
-// func main() {
-// 	// take input from user through scanf
-// 	inMemoryTasks := TaskList{}
-// 	sampleTask := Task{Name: "Hack the patriarchy", Status: StatusEnum(3)}
-// 	id, _ := inMemoryTasks.AddTask(sampleTask)
-// 	fmt.Println(inMemoryTasks.SearchTask(id))
-// }
