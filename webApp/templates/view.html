@@ -7,19 +7,25 @@
 </head>
 <body>
     <h1>To Do List</h1>
-
-    <ol>
+    {{ if .}}
+    <div class="table">
+        <div class="row heading">
+        <div class="cell leftAlign">Task</div>
+        <div class="cell">Status</div>
+        <div class="cell">Change</div>
+        <div class="cell">Delete</div>
+        </div>
         {{range $id, $task := .}}
-        <li>
-            <!-- <strong>ID:</strong> {{$id}}<br> -->
-            {{$task.Name}} : 
-            {{$task.Status.String}}
-            <a class="editLink" href="/edit?id={{$id}}">Edit</a>
-            <a class="deleteLink" href="/delete?id={{$id}}">Delete</a>
-        </li>
+        <div class="row">
+        <div class="cell leftAlign">{{$task.Name}}</div>
+        <div class="cell">{{$task.Status.String}}</div>
+        <div class="cell"><a class="editLink" href="/edit?id={{$id}}">Edit</a></div>
+        <div class="cell"><a class="deleteLink" href="/delete?id={{$id}}">🗑</a></div>
+        </div>
         {{end}}
-    </ol>
-
+    </div>
+    {{end}}
+    <br/>
     <a href="/task">Add a new task</a>
 
  

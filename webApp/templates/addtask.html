@@ -7,19 +7,23 @@
 </head>
 <body>
     <h1>Add a task</h1>
-<form action="/create" method="POST">
+<form action="/task" method="POST">
     <div>
         <label for="todo">Task</label>
         <input type="text" name="todo" required><br/>
         <label for="status">Status</label>
         <select name="status">
-            <option value="0">started</option>
+            <option value="0">to start</option>
             <option value="1">ongoing</option>
             <option value="2">completed</option>
-            <option value="3">pending</option>
+            <option value="3">ignored</option>
         </select>
-
+        <br/>
        <button type="submit">Submit</button>
+    </div>
+       <br/>
+    <div>
+        <a href="/">Back to Task List</a>
     </div>
 </form>
 </body>

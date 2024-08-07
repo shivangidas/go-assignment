@@ -7,22 +7,27 @@
 </head>
 <body>
 <h1>Update task</h1>
-<form action="/update" method="POST">
+<form action="/edit" method="POST">
     <div>
         <input type="hidden" name="id" value="{{.ID}}">
         <label for="todo">Task: </label>
         <input type="text" name="todo" required value="{{.Task.Name}}"><br/>
         <label for="status">Status: </label>
         <select name="status">
-            <option value="0" {{if eq .Task.Status 0}}selected{{end}}>started</option>
+            <option value="0" {{if eq .Task.Status 0}}selected{{end}}>to start</option>
             <option value="1" {{if eq .Task.Status 1}}selected{{end}}>ongoing</option>
             <option value="2" {{if eq .Task.Status 2}}selected{{end}}>completed</option>
-            <option value="3" {{if eq .Task.Status 3}}selected{{end}}>pending</option>
+            <option value="3" {{if eq .Task.Status 3}}selected{{end}}>ignored</option>
         </select>
         <br/>
+        
         <button type="submit">Update</button>
     </div>
-     <a href="/">Back to Task List</a>
+    <br/>
+    <div>
+        <a href="/">Back to Task List</a>
+    </div>
+     
 </form>
 </body>
 </html>

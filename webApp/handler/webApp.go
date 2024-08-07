@@ -13,12 +13,12 @@ import (
 
 var inMemoryTasks = taskInterface.TaskList{}
 
-func Setup() {
+func InjectData() {
 	sampleTask := []taskInterface.Task{{Name: "Buy shares", Status: taskInterface.StatusEnum(2)},
-		{Name: "Check news", Status: taskInterface.StatusEnum(3)},
+		{Name: "Check news", Status: taskInterface.StatusEnum(0)},
 		{Name: "Complete assignment", Status: taskInterface.StatusEnum(1)},
-		{Name: "Send email", Status: taskInterface.StatusEnum(3)},
-		{Name: "Call access to work", Status: taskInterface.StatusEnum(3)}}
+		{Name: "Send email", Status: taskInterface.StatusEnum(2)},
+		{Name: "Call access to work", Status: taskInterface.StatusEnum(0)}}
 	for _, task := range sampleTask {
 		inMemoryTasks.AddTask(task)
 	}
@@ -37,15 +37,6 @@ func checkErr(err error) {
 	}
 }
 
-func write(writer http.ResponseWriter, msg string) {
-	_, err := writer.Write([]byte(msg))
-	checkErr(err)
-}
-
-func helloHandler(writer http.ResponseWriter, req *http.Request) {
-	write(writer, "Hello from server")
-}
-
 func interactHandler(writer http.ResponseWriter, req *http.Request) {
 	tmpl, err := template.ParseFiles("templates/view.html")
 	checkErr(err)
@@ -54,6 +45,16 @@ func interactHandler(writer http.ResponseWriter, req *http.Request) {
 }
 
 func addTaskHandler(writer http.ResponseWriter, req *http.Request) {
+	switch req.Method {
+	case http.MethodPost:
+		createHandler(writer, req)
+	case http.MethodGet:
+		navigateToAdd(writer)
+	default:
+		http.Error(writer, "Method not allowed", http.StatusMethodNotAllowed)
+	}
+}
+func navigateToAdd(writer http.ResponseWriter) {
 	tmpl, err := template.ParseFiles("templates/addTask.html")
 	checkErr(err)
 	err = tmpl.Execute(writer, nil)
@@ -69,10 +70,20 @@ func createHandler(writer http.ResponseWriter, req *http.Request) {
 	http.Redirect(writer, req, "/", http.StatusFound)
 }
 
-func editLinkHandler(writer http.ResponseWriter, req *http.Request) {
+func updateTaskHandler(writer http.ResponseWriter, req *http.Request) {
+	switch req.Method {
+	case http.MethodPost:
+		updateHandler(writer, req)
+	case http.MethodGet:
+		navigateToUpdate(writer, req)
+	default:
+		http.Error(writer, "Method not allowed", http.StatusMethodNotAllowed)
+
+	}
+}
+func navigateToUpdate(writer http.ResponseWriter, req *http.Request) {
 	idStr := req.URL.Query().Get("id")
 	id, err := uuid.Parse(idStr)
-	fmt.Println(id)
 	checkErrHTTP(writer, err, "Invalid task ID", http.StatusBadGateway)
 	task, err := inMemoryTasks.SearchTask(id)
 	checkErr(err)
@@ -107,24 +118,19 @@ func updateHandler(writer http.ResponseWriter, req *http.Request) {
 	http.Redirect(writer, req, "/", http.StatusFound)
 }
 
-func deleteLinkHandler(writer http.ResponseWriter, req *http.Request) {
+func deleteHandler(writer http.ResponseWriter, req *http.Request) {
 	idStr := req.URL.Query().Get("id")
 	id, err := uuid.Parse(idStr)
-	fmt.Println(id)
 	checkErrHTTP(writer, err, "Invalid task ID", http.StatusBadGateway)
 	inMemoryTasks.DeleteTask(id)
 	http.Redirect(writer, req, "/", http.StatusFound)
 }
 
 func Handlers() {
-	http.HandleFunc("/hello", helloHandler)
 	http.HandleFunc("/", interactHandler)
 	http.HandleFunc("/task", addTaskHandler)
-	http.HandleFunc("/create", createHandler)
-	http.HandleFunc("/edit", editLinkHandler)
-	http.HandleFunc("/update", updateHandler)
-	http.HandleFunc("/delete", deleteLinkHandler)
+	http.HandleFunc("/edit", updateTaskHandler)
+	http.HandleFunc("/delete", deleteHandler)
 
 	http.Handle("/public/", http.StripPrefix("/public/", http.FileServer(http.Dir("public"))))
-
 }

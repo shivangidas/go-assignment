@@ -12,3 +12,50 @@ a,
 .deleteLink {
     color: #7b1d1d;
 }
+
+input,
+select {
+    font-size: calc(1em + 0.1vw);
+    margin-top: 1%;
+}
+
+.table {
+    display: flex;
+    flex-flow: column nowrap;
+    border: 1px solid black;
+}
+
+.row {
+    display: flex;
+    border-bottom: 1px solid black;
+    padding: 1vh 1vw 1vh 1vw;
+}
+
+.heading {
+    font-weight: bold;
+}
+
+.cell {
+    display: flex;
+    flex: 1;
+    justify-content: center;
+    align-items: center;
+}
+
+.leftAlign {
+    justify-content: left;
+    padding-left: 5px;
+}
+
+button {
+    background-color: #04AA6D;
+    /* Green */
+    border: none;
+    color: white;
+    padding: 1vh;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: calc(1em + 0.1vw);
+    margin-top: 1vh;
+}
