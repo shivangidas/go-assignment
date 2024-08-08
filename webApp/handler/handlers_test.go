@@ -58,9 +58,10 @@ func TestCreateHandler(t *testing.T) {
 		assertCode(t, response.Code, http.StatusBadRequest)
 	})
 }
+
 func TestDeleteHandler(t *testing.T) {
 	t.Run("Test delete function with bad id", func(t *testing.T) {
-		request, _ := http.NewRequest(http.MethodPost, "/delete/", nil)
+		request, _ := http.NewRequest(http.MethodPost, "/delete/1232", nil)
 		response := httptest.NewRecorder()
 
 		deleteHandler(response, request)

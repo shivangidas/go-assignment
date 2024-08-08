@@ -122,7 +122,6 @@ func updateHandler(writer http.ResponseWriter, req *http.Request) {
 func deleteHandler(writer http.ResponseWriter, req *http.Request) {
 	idStr := req.URL.Query().Get("id")
 	id, err := uuid.Parse(idStr)
-	fmt.Println(id)
 	checkErrHTTP(writer, err, "Invalid task ID", http.StatusBadGateway)
 	inMemoryTasks.DeleteTask(id)
 	http.Redirect(writer, req, "/", http.StatusFound)

@@ -6,7 +6,6 @@ import (
 	"testing"
 
 	"github.com/google/uuid"
-	"github.com/stretchr/testify/assert"
 )
 
 func assertStrings(t testing.TB, got, want string) {
@@ -98,8 +97,9 @@ func TestUpdateTaskName(t *testing.T) {
 		}
 		wg.Wait()
 		finalName := newMockTasks.tasks[id].Name
+		finalNamePrefix := finalName[0:15]
 		expectedPrefix := "Pass all tests "
-		assert.Contains(t, finalName, expectedPrefix, "final task name %q does not start with expected prefix %q", finalName, expectedPrefix)
+		assertStrings(t, finalNamePrefix, expectedPrefix)
 	})
 }
 
