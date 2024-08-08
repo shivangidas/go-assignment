@@ -79,7 +79,8 @@ func TestUpdateTaskName(t *testing.T) {
 		err := mockTasks.UpdateTaskName(uuid.New(), "Fail this test")
 		assertError(t, err, CannotUpdateNonExistentTask)
 	})
-
+	// what is needed is it run concurrently for differently tasks but in sync for same task
+	// this is not it
 	t.Run("it runs safely concurrently", func(t *testing.T) {
 		wantedCount := 1000
 		newMockTasks := NewTaskList()
