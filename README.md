@@ -29,3 +29,4 @@ For tests use `go test .` where test file is present
 2. benchmark tests on server and how to improve. does it need improving?
 3. use of interface for mocking the CRUD operations
 4. Improve error handling for sending to the browser
+5. graceful shutdown? look into context

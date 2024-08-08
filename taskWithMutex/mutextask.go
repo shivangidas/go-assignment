@@ -128,12 +128,25 @@ func (t *TaskList) DeleteTask(id uuid.UUID) {
 	defer t.lock.Unlock()
 	delete(t.tasks, id)
 }
+func (t *TaskList) GetAllTask() map[uuid.UUID]Task {
+	t.lock.Lock()
+	defer t.lock.Unlock()
+	return t.tasks
+}
 
-type Tasks interface {
+type TaskService interface {
 	CurrentTaskLength() int
+	GetAllTask() map[uuid.UUID]Task
 	SearchTask(id uuid.UUID) (Task, error)
 	AddTask(newTodo Task) (uuid.UUID, error)
 	UpdateTaskName(id uuid.UUID, name string) error
 	UpdateStatus(id uuid.UUID, status StatusEnum) error
 	DeleteTask(id uuid.UUID)
+}
+type TaskServer struct {
+	service TaskService
+}
+
+func NewTaskServer(service TaskService) *TaskServer {
+	return &TaskServer{service: service}
 }
