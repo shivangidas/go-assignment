@@ -79,7 +79,6 @@ func updateTaskHandler(writer http.ResponseWriter, req *http.Request) {
 		navigateToUpdate(writer, req)
 	default:
 		http.Error(writer, "Method not allowed", http.StatusMethodNotAllowed)
-
 	}
 }
 func navigateToUpdate(writer http.ResponseWriter, req *http.Request) {
@@ -120,9 +119,12 @@ func updateHandler(writer http.ResponseWriter, req *http.Request) {
 }
 
 func deleteHandler(writer http.ResponseWriter, req *http.Request) {
+	if req.Method != http.MethodGet { //should be delete but would need javascript
+		http.Error(writer, "Method not allowed", http.StatusMethodNotAllowed)
+	}
 	idStr := req.URL.Query().Get("id")
 	id, err := uuid.Parse(idStr)
-	checkErrHTTP(writer, err, "Invalid task ID", http.StatusBadGateway)
+	checkErrHTTP(writer, err, "Invalid task ID", http.StatusBadRequest)
 	inMemoryTasks.DeleteTask(id)
 	http.Redirect(writer, req, "/", http.StatusFound)
 }
