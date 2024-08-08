@@ -85,9 +85,9 @@ func updateTaskHandler(writer http.ResponseWriter, req *http.Request) {
 func navigateToUpdate(writer http.ResponseWriter, req *http.Request) {
 	idStr := req.URL.Query().Get("id")
 	id, err := uuid.Parse(idStr)
-	checkErrHTTP(writer, err, "Invalid task ID", http.StatusBadGateway)
+	checkErrHTTP(writer, err, "Invalid task ID", http.StatusBadRequest)
 	task, err := inMemoryTasks.SearchTask(id)
-	checkErr(err)
+	checkErrHTTP(writer, err, "Task not found", http.StatusNotFound)
 	data := struct {
 		ID   uuid.UUID
 		Task taskInterface.Task
@@ -104,12 +104,12 @@ func navigateToUpdate(writer http.ResponseWriter, req *http.Request) {
 func updateHandler(writer http.ResponseWriter, req *http.Request) {
 	idStr := req.FormValue("id")
 	id, err := uuid.Parse(idStr)
-	checkErrHTTP(writer, err, "Invalid task ID", http.StatusBadGateway)
+	checkErrHTTP(writer, err, "Invalid task ID", http.StatusBadRequest)
 	todo := req.FormValue("todo")
 	status, err := strconv.ParseInt(req.FormValue("status"), 10, 64)
-	checkErr(err)
+	checkErrHTTP(writer, err, "Invalid status", http.StatusBadRequest)
 	oldTask, err := inMemoryTasks.SearchTask(id)
-	checkErr(err)
+	checkErrHTTP(writer, err, "Task not found", http.StatusNotFound)
 	if oldTask.Name != todo {
 		inMemoryTasks.UpdateTaskName(id, todo)
 	}
