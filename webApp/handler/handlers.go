@@ -25,6 +25,7 @@ func InjectData() {
 }
 
 // TODO: improve error handling
+
 func checkErrHTTP(writer http.ResponseWriter, err error, msg string, status int) {
 	if err != nil {
 		fmt.Println(err)
@@ -64,9 +65,9 @@ func navigateToAdd(writer http.ResponseWriter) {
 func createHandler(writer http.ResponseWriter, req *http.Request) {
 	todo := req.FormValue("todo")
 	status, err := strconv.ParseInt(req.FormValue("status"), 10, 64)
-	checkErr(err)
+	checkErrHTTP(writer, err, "Wrong status ", http.StatusBadRequest)
 	_, err2 := inMemoryTasks.AddTask(taskInterface.Task{Name: todo, Status: taskInterface.StatusEnum(status)})
-	checkErrHTTP(writer, err2, "Cannot add new task", http.StatusBadRequest)
+	checkErrHTTP(writer, err2, "Did not add task", http.StatusBadRequest)
 	http.Redirect(writer, req, "/", http.StatusFound)
 }
 
@@ -121,6 +122,7 @@ func updateHandler(writer http.ResponseWriter, req *http.Request) {
 func deleteHandler(writer http.ResponseWriter, req *http.Request) {
 	idStr := req.URL.Query().Get("id")
 	id, err := uuid.Parse(idStr)
+	fmt.Println(id)
 	checkErrHTTP(writer, err, "Invalid task ID", http.StatusBadGateway)
 	inMemoryTasks.DeleteTask(id)
 	http.Redirect(writer, req, "/", http.StatusFound)

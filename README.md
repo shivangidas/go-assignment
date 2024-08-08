@@ -2,7 +2,7 @@
 GoLang assignment
 
 
-## Todo app
+## Todo Web app
 
 How to start the app
 
@@ -12,3 +12,12 @@ How to start the app
 The server should start at port 8080
 
 Open http://localhost:8080/ on a browser
+
+## Todo cli app
+
+How to start the app
+
+    cd cli
+    go run .
+
+For tests use `go test .` where test file is present

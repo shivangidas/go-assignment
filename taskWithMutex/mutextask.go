@@ -137,11 +137,3 @@ type Tasks interface {
 	UpdateStatus(id uuid.UUID, status StatusEnum) error
 	DeleteTask(id uuid.UUID)
 }
-
-// func main() {
-// 	// take input from user through scanf
-// 	inMemoryTasks := TaskList{}
-// 	sampleTask := Task{Name: "Hack the patriarchy", Status: StatusEnum(3)}
-// 	id, _ := inMemoryTasks.AddTask(sampleTask)
-// 	fmt.Println(inMemoryTasks.SearchTask(id))
-// }
